@@ -131,7 +131,10 @@ func buildPubKeySigner(passphraseFlag bool, passphrase string, keyPath string) (
 
 	if passphrase == "" {
 		var ok bool
-		passphrase, ok = InputBox("kushi", "Type passphrase")
+		passphrase, ok, err = promptPassphrase("kushi", "Type passphrase")
+		if err != nil {
+			return nil, err
+		}
 		if !ok {
 			return nil, fmt.Errorf("no value entered for private key %s", keyPath)
 		}
